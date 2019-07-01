@@ -6,19 +6,27 @@ void llenarMatriz(int mat[][3],int f,int c);
 void mostrarMatriz(int mat[][3],int f,int c);
 void transponerMatriz(int mat[][3],int f,int c);
 int  determinante(int mat[][3],int n);
-int det(int mat[][2],int n);
-void invertirMatriz(int mat[][3],int f,int c);
+int  det(int mat[][2],int n);
+void invertirMatriz(int mat[][3],int matInver[][3],int n);
+void matrizInversa(int mat[][],int n,int det);
 
 void mostrarMatriz2x2(int mat[][2]);
 
 int main()
 {
 	int mat[3][3],f=3,c=3;
-	int matP[3][3]={1,2,3,4,5,6,7,8,9};
+	int matP[3][3]={9,9,9,6,2,3,1,5,7};
+	int matInver[3][3];
 	int det;
 	
 	det = determinante(matP,f);
 	mostrarMatriz(matP,f,c);
+	invertirMatriz(matP,matInver,f);
+	mostrarMatriz(matInver,f,c);
+	transponerMatriz(matInver,f,c);
+	mostrarMatriz(matInver,f,c);
+	
+	matrizInversa(mat,n,det);
 	
 	cout<<"\nDeterminante: "<<det<<endl;
 	
@@ -96,7 +104,7 @@ int  determinante(int matriz[][3],int n)
 {
 	int mat[2][2];
 	int determinante=0;
-	int cof,f=0,c=0,fil,col;
+	int cof,c=0,fil,col;
 	
 	
 	for(int k=0;k<n;k++) //3 determinantes 2x2
@@ -123,7 +131,7 @@ int  determinante(int matriz[][3],int n)
 				}	
 			}
 		}	
-		cof = det(mat);
+		cof = matriz[0][k] * det(mat);
 		
 		if(k%2 != 0)
 			cof*=-1;
@@ -134,8 +142,63 @@ int  determinante(int matriz[][3],int n)
 	return determinante;
 }
 
-void invertirMatriz(int mat[][3],int f,int c)
+void  invertirMatriz(int matriz[][3],int matInver[][3],int n)
 {
+	int mat[2][2];
+	int f=0,c=0,fil=0,col=0,filas=0,columnas=0,cof=0;
+	
+	for(int m=0;m<n;m++)
+	{	
+		f=m;
+		
+		for(int k=0;k<n;k++) 
+		{
+			c=k;
+		
+			fil=0,col=0;
+		
+			for(int i=0;i<n;i++) //recorre las filas
+			{
+				for(int j=0;j<n;j++) //recorre las columnas
+				{
+					if(i!=f && j!=c)
+					{
+						mat[fil][col] = matriz[i][j];
+						
+						if(col<1)
+							col++;
+						else
+						{
+							col=0;
+							fil++;
+						}
+					}	
+				}
+			}	
+			
+			cof = det(mat);
+			
+			if(m%2 == 0)
+			{
+				if(k%2!=0)
+					cof*=-1;	
+			}else
+			{
+				if(k%2==0)
+					cof*=-1;
+			}
+			
+			matInver[filas][columnas] = cof;
+			
+			if(columnas<2)
+				columnas++;
+			else
+			{
+				columnas = 0;
+				filas++;
+			}	
+		}	
+	}
 	
 }
 
