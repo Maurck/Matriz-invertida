@@ -128,7 +128,7 @@ int  determinante(int matriz[][3],int n)
 		if(k%2 != 0)
 			cof*=-1;
 			
-		determinante+=cof;
+		determinante += cof;
 	}
 	
 	return determinante;
