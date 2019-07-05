@@ -1,14 +1,15 @@
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
 void llenarMatriz(int mat[][3],int f,int c);
-void mostrarMatriz(int mat[][3],int f,int c);
+void mostrarMatriz(int mat[][3],int f,int c,string nombre);
 void transponerMatriz(int mat[][3],int f,int c);
 int  determinante(int mat[][3],int n);
 int  det(int mat[][2],int n);
 void invertirMatriz(int mat[][3],int matInver[][3],int n);
-void matrizInversa(int mat[][],int n,int det);
+void mostrarSiTieneInversa(int det);
 
 void mostrarMatriz2x2(int mat[][2]);
 
@@ -18,17 +19,22 @@ int main()
 	int matP[3][3]={9,9,9,6,2,3,1,5,7};
 	int matInver[3][3];
 	int det;
+	string nor = "normal",cof="de cofactores",tras = "de cofactores transpuesta";
 	
-	det = determinante(matP,f);
-	mostrarMatriz(matP,f,c);
-	invertirMatriz(matP,matInver,f);
-	mostrarMatriz(matInver,f,c);
+	llenarMatriz(mat,f,c);
+	
+	det = determinante(mat,f);
+	mostrarMatriz(mat,f,c,nor);
+	
+	invertirMatriz(mat,matInver,f);
+	mostrarMatriz(matInver,f,c,cof);
+	
 	transponerMatriz(matInver,f,c);
-	mostrarMatriz(matInver,f,c);
+	mostrarMatriz(matInver,f,c,tras);
 	
-	matrizInversa(mat,n,det);
+	cout<<"\n\tDeterminante: "<<det<<endl;
 	
-	cout<<"\nDeterminante: "<<det<<endl;
+	mostrarSiTieneInversa(det);
 	
 	system("pause");
 	return 0;
@@ -36,23 +42,24 @@ int main()
 
 void llenarMatriz(int mat[][3],int f,int c)
 {
-	cout<<"Llenando matriz: \n"<<endl;
+	cout<<"\n\tLlenando matriz: \n"<<endl;
 	
 	for(int i=0;i<f;i++)
 	{
 		for(int j=0;j<c;j++)
 		{
-			cout<<"Fila "<<i+1<<" Columna "<<j+1<<" :";cin>>mat[i][j];
+			cout<<"\tFila "<<i+1<<" Columna "<<j+1<<" :";cin>>mat[i][j];
 		}
 	}
 }
 
-void mostrarMatriz(int mat[][3],int f,int c)
+void mostrarMatriz(int mat[][3],int f,int c,string nombre)
 {
-	cout<<"\nMostrando matriz: \n"<<endl;
+	cout<<"\n\tMostrando matriz "<<nombre<<": \n"<<endl;
 	
 	for(int i=0;i<f;i++)
 	{
+		cout<<"\t";
 		for(int j=0;j<c;j++)
 		{
 			cout<<mat[i][j]<<" ";
@@ -200,5 +207,13 @@ void  invertirMatriz(int matriz[][3],int matInver[][3],int n)
 		}	
 	}
 	
+}
+
+void mostrarSiTieneInversa(int det)
+{
+	if(det!=0)
+		cout<<"\n\tMatriz inversa: 1/det * (cofact)t . \n"<<endl;
+	else
+		cout<<"\n\tLa matriz no tiene inversa: "<<endl;
 }
 
